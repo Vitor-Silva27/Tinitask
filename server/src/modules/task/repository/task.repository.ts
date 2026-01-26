@@ -21,4 +21,10 @@ export class TaskRepository implements ITaskRepository {
         });
         return newTask.id;
     }
+
+    async getTaskById(taskId: string): Promise<Task | null> {
+        const taskRepository = this.typeormProvider.getRepository(Task);
+        const task = await taskRepository.findOne({ where: { id: taskId } });
+        return task;
+    }
 }

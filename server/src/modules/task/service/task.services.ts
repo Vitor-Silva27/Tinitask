@@ -3,17 +3,26 @@ import { ITaskRepository } from "../interface/ItaskRepository";
 import { CreateTaskDTO } from "../dto/createTask.dto";
 import { identifiers } from "@app/infra/inversify/identifiers";
 import { ApiError } from "@app/shared/errors/ApiError";
+import { Task } from "../entity/task.entity";
 
 @injectable()
 export class TaskService {
     constructor(
         @inject(identifiers.TaskRepository) private readonly taskRepository: ITaskRepository,
-    ) {}
+    ) { }
 
     async createTask(taskData: CreateTaskDTO): Promise<string> {
         this.validateTaskData(taskData);
         const taskId = await this.taskRepository.createTask(taskData);
         return taskId;
+    }
+
+    async getTaskById(taskId: string): Promise<Task | null> {
+        const task = await this.taskRepository.getTaskById(taskId);
+        if (!task) {
+            throw ApiError.badRequest("Task not found");
+        }
+        return task;
     }
 
     private validateTaskData(taskData: CreateTaskDTO): void {
