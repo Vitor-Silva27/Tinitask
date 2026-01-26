@@ -28,4 +28,11 @@ describe("TaskService", () => {
     expect(taskRepositoryMock.createTask).toHaveBeenCalledWith(dto);
     expect(result).toBe("task-id-123");
   });
+
+  it.todo("should not create a task with missing title");
+  it.todo("should not create a task with a title shorter than 3 or longer than 100 characters");
+  it.todo("should not create a task with the same title as an existing incomplete task");
+  it.todo("should create a task with all optional fields");
+  it.todo("should not create a task with past due date");
+  it.todo("should not create a task with invalid priority");
 });
