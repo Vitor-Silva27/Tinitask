@@ -1,12 +1,14 @@
-import express from "express";
+import { app } from "@app/infra/http/server";
+import { myDataSource } from "./infra/database/dataSource";
 
-const app = express();
-const port = process.env.PORT ?? "3000";
+async function bootstrap() {
+  await myDataSource.initialize();
 
-app.get("/", (req, res) => {
-  res.send("Hello App!");
-});
+  const PORT = process.env.PORT ?? 3000;
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}
+
+bootstrap();
