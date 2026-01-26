@@ -39,10 +39,53 @@ describe("TaskService", () => {
       statusCode: 400,
     });
   });
-  
-  it.todo("should not create a task with a title shorter than 3 or longer than 100 characters");
-  it.todo("should not create a task with the same title as an existing incomplete task");
-  it.todo("should create a task with all optional fields");
-  it.todo("should not create a task with past due date");
-  it.todo("should not create a task with invalid priority");
+
+  it("should not create a task with a title shorter than 3 or longer than 100 characters", async () => {
+    const shortTitleDto: CreateTaskDTO = {
+      title: "Hi",
+    };
+    const longTitleDto: CreateTaskDTO = {
+      title: "A".repeat(101),
+    };
+    await expect(service.createTask(shortTitleDto)).rejects.toMatchObject({
+      message: "Title must be between 3 and 100 characters",
+      statusCode: 400,
+    });
+    await expect(service.createTask(longTitleDto)).rejects.toMatchObject({
+      message: "Title must be between 3 and 100 characters",
+      statusCode: 400,
+    });
+  });
+  it("should create a task with all optional fields", async () => {
+    const dto: CreateTaskDTO = {
+      title: "Complete Task",
+      description: "This task has all optional fields filled",
+      dueDate: new Date(Date.now() + (1000 * 60 * 60 * 24)),
+      priority: "high",
+    };
+    taskRepositoryMock.createTask.mockResolvedValue("task-id-456");
+    const result = await service.createTask(dto);
+    expect(taskRepositoryMock.createTask).toHaveBeenCalledWith(dto);
+    expect(result).toBe("task-id-456");
+  });
+  it("should not create a task with past due date", async () => {
+    const dto: CreateTaskDTO = {
+      title: "Past Due Task",
+      dueDate: new Date(Date.now() - (1000 * 60 * 60 * 24))
+    };
+    await expect(service.createTask(dto)).rejects.toMatchObject({
+      message: "Due date cannot be in the past",
+      statusCode: 400,
+    });
+  });
+  it("should not create a task with invalid priority", async () => {
+    const dto: CreateTaskDTO = {
+      title: "Invalid Priority Task",
+      priority: "urgent" as any,
+    };
+    await expect(service.createTask(dto)).rejects.toMatchObject({
+      message: "Priority must be 'low', 'medium', or 'high'",
+      statusCode: 400,
+    });
+  });
 });

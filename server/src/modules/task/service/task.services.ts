@@ -23,5 +23,11 @@ export class TaskService {
         if (taskData.title.length < 3 || taskData.title.length > 100) {
             throw ApiError.badRequest("Title must be between 3 and 100 characters");
         }
+        if (taskData.priority && !["low", "medium", "high"].includes(taskData.priority)) {
+            throw ApiError.badRequest("Priority must be 'low', 'medium', or 'high'");
+        }
+        if (taskData.dueDate && taskData.dueDate < new Date()) {
+            throw ApiError.badRequest("Due date cannot be in the past");
+        }
     }
 }
