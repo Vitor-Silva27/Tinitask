@@ -29,7 +29,17 @@ describe("TaskService", () => {
     expect(result).toBe("task-id-123");
   });
 
-  it.todo("should not create a task with missing title");
+  it("should not create a task with missing title", async () => {
+    const dto: CreateTaskDTO = {
+      title: "",
+      description: "This is a test task without a title",
+    };
+    await expect(service.createTask(dto)).rejects.toMatchObject({
+      message: "Title is required",
+      statusCode: 400,
+    });
+  });
+  
   it.todo("should not create a task with a title shorter than 3 or longer than 100 characters");
   it.todo("should not create a task with the same title as an existing incomplete task");
   it.todo("should create a task with all optional fields");
