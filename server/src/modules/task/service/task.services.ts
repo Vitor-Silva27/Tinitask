@@ -13,7 +13,12 @@ export class TaskService {
 
     async createTask(taskData: CreateTaskDTO): Promise<string> {
         this.validateTaskData(taskData);
-        const taskId = await this.taskRepository.createTask(taskData);
+        const taskId = await this.taskRepository.createTask({
+            title: taskData.title.trim(),
+            description: taskData.description,
+            dueDate: taskData.dueDate,
+            priority: taskData.priority,
+        });
         return taskId;
     }
 
@@ -25,17 +30,17 @@ export class TaskService {
         return task;
     }
 
-    private validateTaskData(taskData: CreateTaskDTO): void {
-        if (!taskData.title || taskData.title.trim().length === 0) {
+    private validateTaskData({ title, dueDate, priority }: CreateTaskDTO): void {
+        if (!title?.trim()) {
             throw ApiError.badRequest("Title is required");
         }
-        if (taskData.title.length < 3 || taskData.title.length > 100) {
+        if (title.length < 3 || title.length > 100) {
             throw ApiError.badRequest("Title must be between 3 and 100 characters");
         }
-        if (taskData.priority && !["low", "medium", "high"].includes(taskData.priority)) {
+        if (priority && !["low", "medium", "high"].includes(priority)) {
             throw ApiError.badRequest("Priority must be 'low', 'medium', or 'high'");
         }
-        if (taskData.dueDate && taskData.dueDate < new Date()) {
+        if (dueDate && dueDate < new Date()) {
             throw ApiError.badRequest("Due date cannot be in the past");
         }
     }
