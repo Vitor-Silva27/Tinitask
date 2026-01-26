@@ -3,17 +3,18 @@ import { colors } from '@app/shared/colors';
 export const MainContainer = styled.View`
     flex: 1;
     background-color: ${colors.background};
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 50px 30px;
     `;
+
+export const HeaderContainer = styled.View`
+    flex-direction: row;
+    margin-bottom: 32px;
+    justify-content: space-between;
+`;
 
 export const Title = styled.Text`
   font-size: 24px;
   color: ${colors.black};
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 export const NestedTitle = styled.Text`
