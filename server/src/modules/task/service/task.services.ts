@@ -4,9 +4,10 @@ import { CreateTaskDTO } from "../dto/createTask.dto";
 import { identifiers } from "@app/infra/inversify/identifiers";
 import { ApiError } from "@app/shared/errors/ApiError";
 import { Task } from "../entity/task.entity";
+import { ITaskService } from "../interface/ITaskService";
 
 @injectable()
-export class TaskService {
+export class TaskService implements ITaskService {
     constructor(
         @inject(identifiers.TaskRepository) private readonly taskRepository: ITaskRepository,
     ) { }
@@ -28,6 +29,36 @@ export class TaskService {
             throw ApiError.badRequest("Task not found");
         }
         return task;
+    }
+
+    async getAllTasks(): Promise<Task[]> {
+        const tasks = await this.taskRepository.getAllTasks();
+        return tasks;
+    }
+
+
+    async updateTask(taskId: string, taskData: Partial<CreateTaskDTO>): Promise<void> {
+        const existingTask = await this.taskRepository.getTaskById(taskId);
+        if (!existingTask) {
+            throw ApiError.badRequest("Task not found");
+        }
+
+        this.validateTaskData({
+            title: taskData.title ?? existingTask.title,
+            dueDate: taskData.dueDate ?? existingTask.dueDate,
+            priority: taskData.priority ?? existingTask.priority,
+        } as CreateTaskDTO);
+
+        await this.taskRepository.updateTask(taskId, taskData);
+    }
+
+    async deleteTask(taskId: string): Promise<void> {
+        const existingTask = await this.taskRepository.getTaskById(taskId);
+        if (!existingTask) {
+            throw ApiError.badRequest("Task not found");
+        }
+
+        await this.taskRepository.deleteTask(taskId);
     }
 
     private validateTaskData({ title, dueDate, priority }: CreateTaskDTO): void {
