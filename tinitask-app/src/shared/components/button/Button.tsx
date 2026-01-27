@@ -1,5 +1,10 @@
 import { ButtonContainer, ButtonText } from "./styles";
 
-export function Button() {
-    return <ButtonContainer><ButtonText>Add a new task</ButtonText></ButtonContainer>;
+interface ButtonProps {
+    onPress?: () => void;
+    text: string;
+}
+
+export function Button({ onPress, text }: ButtonProps) {
+    return <ButtonContainer onPress={onPress}><ButtonText>{text}</ButtonText></ButtonContainer>;
 }

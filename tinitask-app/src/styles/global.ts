@@ -3,7 +3,7 @@ import { colors } from '@app/shared/colors';
 export const MainContainer = styled.View`
     flex: 1;
     background-color: ${colors.background};
-    padding: 50px 30px;
+    padding: 50px 25px;
     `;
 
 export const HeaderContainer = styled.View`

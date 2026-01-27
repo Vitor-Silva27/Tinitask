@@ -3,8 +3,11 @@ import { TasksContainer } from "./components/tasksContainer/tasksContainer";
 import { Button } from "@app/shared/components/button/Button";
 import { Image, Text, View } from "react-native";
 import { GhostButton } from "@app/shared/components/ghostButton/GhostButton";
+import { useNavigation } from "@react-navigation/native";
+import type { NavigationProp } from "@react-navigation/native";
 
 export function Main() {
+    const navigation = useNavigation<NavigationProp<any>>();
     return (
         <MainContainer>
             <HeaderContainer>
@@ -12,7 +15,7 @@ export function Main() {
                 <GhostButton text="Log out" iconSource={require('@assets/logout-icon.png')} />
             </HeaderContainer>
             <TasksContainer />
-            <Button />
+            <Button onPress={() => navigation.navigate("createTask")} text="Add a new task" />
         </MainContainer>
     );
 }
