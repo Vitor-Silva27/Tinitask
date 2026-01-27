@@ -1,7 +1,8 @@
 import { GhostButton } from "@app/shared/components/ghostButton/GhostButton";
-import { HeaderContainer, MainContainer } from "@app/shared/styles/global";
+import { HeaderContainer, MainContainer, Title,NestedTitle } from "@app/shared/styles/global";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "react-native";
+import { CreateTaskForm } from "./form/CreateTaskForm";
 
 export function CreateTask() {
     const navigation = useNavigation();
@@ -10,7 +11,8 @@ export function CreateTask() {
       <HeaderContainer>
         <GhostButton text="Cancel" inverted iconSource={require('@assets/arrow-back.png')} onPress={() => navigation.goBack()} />
       </HeaderContainer>
-      <View><Text>Create Task Screen</Text></View>
+      <Title>Add a new <NestedTitle>Task</NestedTitle></Title>
+      <CreateTaskForm onSubmit={() => {console.log('Task created')}} />
     </MainContainer>
   );
 }
