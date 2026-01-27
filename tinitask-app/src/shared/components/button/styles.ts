@@ -1,4 +1,4 @@
-import { colors } from "@app/shared/colors";
+import { colors } from "@app/shared/styles/colors";
 import styled from "styled-components/native";
 
 export const ButtonContainer = styled.TouchableOpacity`

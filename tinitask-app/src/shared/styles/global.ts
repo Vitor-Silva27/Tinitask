@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
-import { colors } from '@app/shared/colors';
+import { colors } from '@app/shared/styles/colors';
 export const MainContainer = styled.View`
     flex: 1;
     background-color: ${colors.background};
-    padding: 50px 25px;
+    padding: 80px 40px;
     `;
 
 export const HeaderContainer = styled.View`

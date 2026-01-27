@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
-import { colors } from '@app/shared/colors/index';
+import { colors } from '@app/shared/styles/colors/index';
 
 export const Container = styled.View`
     align-items: center;
     justify-content: center;
     flex: 1;
-`; 
+`;
 
 export const EmptyImage = styled.Image`
     width: 157px;

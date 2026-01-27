@@ -1,4 +1,4 @@
-import { MainContainer, NestedTitle, Title, HeaderContainer } from "@app/styles/global";
+import { MainContainer, NestedTitle, Title, HeaderContainer } from "@app/shared/styles/global";
 import { TasksContainer } from "./components/tasksContainer/tasksContainer";
 import { Button } from "@app/shared/components/button/Button";
 import { Image, Text, View } from "react-native";

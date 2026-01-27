@@ -1,4 +1,4 @@
-import { LinkText, Title } from "@app/styles/global";
+import { LinkText, Title } from "@app/shared/styles/global";
 import { Container, EmptyImage, InfoText } from "./styles";
 export function TasksContainer() {
     return (
